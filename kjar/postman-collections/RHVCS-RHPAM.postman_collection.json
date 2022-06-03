@@ -1,0 +1,774 @@
+{
+	"info": {
+		"_postman_id": "274a45b4-8155-45ac-9369-ec81e32fb019",
+		"name": "RHVCS-RHPAM",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Get Containers",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "{{password}}",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "{{user}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base-url}}/server/containers",
+					"host": [
+						"{{base-url}}"
+					],
+					"path": [
+						"server",
+						"containers"
+					]
+				},
+				"description": "[GET] {{base-url}}/server/containers"
+			},
+			"response": []
+		},
+		{
+			"name": "Get Server Info",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "{{password}}",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "{{user}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base-url}}/server",
+					"host": [
+						"{{base-url}}"
+					],
+					"path": [
+						"server"
+					]
+				},
+				"description": "[GET] {{base-url}}/server/containers"
+			},
+			"response": []
+		},
+		{
+			"name": "Get Process Defs",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "{{password}}",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "{{user}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base-url}}/server/queries/containers/{{container-id}}/processes/definitions",
+					"host": [
+						"{{base-url}}"
+					],
+					"path": [
+						"server",
+						"queries",
+						"containers",
+						"{{container-id}}",
+						"processes",
+						"definitions"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Start TR Submission",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "{{password}}",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "{{user}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"document\": {\n        \"com.redhat.vcs.model.CovidTestResultDocument\": {\n            \"covidTestDate\": \"2016-03-16T13:56:39.492\",\n            \"covidTestResult\": \"POSITIVE\"\n        }\n     }\n}\n"
+				},
+				"url": {
+					"raw": "{{base-url}}/server/containers/{{container-id}}/processes/covid_test_result_submission_workflow/instances",
+					"host": [
+						"{{base-url}}"
+					],
+					"path": [
+						"server",
+						"containers",
+						"{{container-id}}",
+						"processes",
+						"covid_test_result_submission_workflow",
+						"instances"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Start TR Review",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "{{password}}",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "{{user}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "Accept",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"document\": {\n        \"com.redhat.vcs.model.CovidTestResultDocument\": {\n            \"covidTestDate\": \"2016-03-16T13:56:39.492\",\n            \"covidTestResult\": \"POSITIVE\"\n        }\n     }\n}\n"
+				},
+				"url": {
+					"raw": "{{base-url}}/server/containers/{{container-id}}/processes/covid_test_result_review_workflow/instances",
+					"host": [
+						"{{base-url}}"
+					],
+					"path": [
+						"server",
+						"containers",
+						"{{container-id}}",
+						"processes",
+						"covid_test_result_review_workflow",
+						"instances"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Start Vax Card Review",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "{{password}}",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "{{user}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "Accept",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"document\": {\n        \"com.rehat.vcs.model.VaccineCardDocument\": {\n            \"vaccineBrand\": \"PFIZER\",\n            \"vaccineShotNumber\": 1,\n            \"vaccineAdministrationDate\": \"2016-03-16T13:56:39.492\"\n        }\n     }\n}\n"
+				},
+				"url": {
+					"raw": "{{base-url}}/server/containers/{{container-id}}/processes/vax_card_review_workflow/instances",
+					"host": [
+						"{{base-url}}"
+					],
+					"path": [
+						"server",
+						"containers",
+						"{{container-id}}",
+						"processes",
+						"vax_card_review_workflow",
+						"instances"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get IMG",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "{{password}}",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "{{user}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base-url}}/server/containers/{{container-id}}/images/processes/instances/1",
+					"host": [
+						"{{base-url}}"
+					],
+					"path": [
+						"server",
+						"containers",
+						"{{container-id}}",
+						"images",
+						"processes",
+						"instances",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "[Demo] Start Test HT",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "{{password}}",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "{{user}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"agency\": \"a1\"\n}"
+				},
+				"url": {
+					"raw": "{{base-url}}/server/containers/{{container-id}}/processes/test_ht_2/instances",
+					"host": [
+						"{{base-url}}"
+					],
+					"path": [
+						"server",
+						"containers",
+						"{{container-id}}",
+						"processes",
+						"test_ht_2",
+						"instances"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "[Demo] Get Tasks",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "username",
+							"value": "user4",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "user",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base-url}}/server/queries/tasks/instances/pot-owners",
+					"host": [
+						"{{base-url}}"
+					],
+					"path": [
+						"server",
+						"queries",
+						"tasks",
+						"instances",
+						"pot-owners"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Task List",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "username",
+							"value": "user1",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "user",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base-url}}/server/queries/tasks/instances/pot-owners",
+					"host": [
+						"{{base-url}}"
+					],
+					"path": [
+						"server",
+						"queries",
+						"tasks",
+						"instances",
+						"pot-owners"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Claim Task",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "username",
+							"value": "user1",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "user",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "{{base-url}}/server/containers/{{container-id}}/tasks/1/states/claimed",
+					"host": [
+						"{{base-url}}"
+					],
+					"path": [
+						"server",
+						"containers",
+						"{{container-id}}",
+						"tasks",
+						"1",
+						"states",
+						"claimed"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Task",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "username",
+							"value": "user1",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "user",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{base-url}}/server/containers/{{container-id}}/tasks/1?withInputData=true&withOutputData=true&withAssignments=true",
+					"host": [
+						"{{base-url}}"
+					],
+					"path": [
+						"server",
+						"containers",
+						"{{container-id}}",
+						"tasks",
+						"1"
+					],
+					"query": [
+						{
+							"key": "withInputData",
+							"value": "true"
+						},
+						{
+							"key": "withOutputData",
+							"value": "true"
+						},
+						{
+							"key": "withAssignments",
+							"value": "true"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Start Task",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "username",
+							"value": "user1",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "user",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "{{base-url}}/server/containers/{{container-id}}/tasks/1/states/started",
+					"host": [
+						"{{base-url}}"
+					],
+					"path": [
+						"server",
+						"containers",
+						"{{container-id}}",
+						"tasks",
+						"1",
+						"states",
+						"started"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Release Task",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "{{base-url}}/server/containers/{{container-id}}/tasks/1/states/released",
+					"host": [
+						"{{base-url}}"
+					],
+					"path": [
+						"server",
+						"containers",
+						"{{container-id}}",
+						"tasks",
+						"1",
+						"states",
+						"released"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Complete Task",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "username",
+							"value": "user1",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "user",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"documentReview\": {\n        \"com.redhat.vcs.model.DocumentReview\" : {\n            \"reviewerNCID\": \"ncid-1234\",\n            \"outcome\": \"VALID\",\n            \"reviewerNotes\": \"Reviewer notes here ...\"\n        }        \n    }\n}"
+				},
+				"url": {
+					"raw": "{{base-url}}/server/containers/{{container-id}}/tasks/1/states/completed?auto-progress=true",
+					"host": [
+						"{{base-url}}"
+					],
+					"path": [
+						"server",
+						"containers",
+						"{{container-id}}",
+						"tasks",
+						"1",
+						"states",
+						"completed"
+					],
+					"query": [
+						{
+							"key": "auto-progress",
+							"value": "true"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Vax Card Upload",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "employeeId",
+							"value": "employeeId",
+							"type": "text"
+						},
+						{
+							"key": "employeeEmail",
+							"value": "e@nowhere.com",
+							"type": "text"
+						},
+						{
+							"key": "employeeAgencyCode",
+							"value": "a1",
+							"type": "text"
+						},
+						{
+							"key": "vaccineBrand",
+							"value": "PFIZER",
+							"type": "text"
+						},
+						{
+							"key": "vaccineAdministrationDate",
+							"value": "2021-08-22T20:54:48",
+							"type": "text"
+						},
+						{
+							"key": "vaccineShotNumber",
+							"value": "1",
+							"type": "text"
+						},
+						{
+							"key": "attachment",
+							"type": "file",
+							"src": "/home/user/Downloads/testdata.xlsx"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{host}}/attestation/vax",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"attestation",
+						"vax"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "COVID TR Upload",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "username",
+							"value": "user",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "user",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "employeeId",
+							"value": "employeeId",
+							"type": "text"
+						},
+						{
+							"key": "employeeEmail",
+							"value": "@nowhere.com",
+							"type": "text"
+						},
+						{
+							"key": "employeeAgencyCode",
+							"value": "a1",
+							"type": "text"
+						},
+						{
+							"key": "testResultDate",
+							"value": "2021-08-22T20:54:48",
+							"type": "text"
+						},
+						{
+							"key": "testResultOutcome",
+							"value": "NEGATIVE",
+							"type": "text"
+						},
+						{
+							"key": "attachment",
+							"type": "file",
+							"src": "/home/user/Downloads/data.xlsx"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{host}}/attestation/covid-test-result",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"attestation",
+						"covid-test-result"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

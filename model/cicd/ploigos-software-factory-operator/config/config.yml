@@ -1,0 +1,32 @@
+---
+step-runner-config:
+  config-decryptors:
+  - implementer: SOPS
+
+  global-defaults:
+    organization: redhat
+    application-name: vcs
+    service-name: model
+
+  generate-metadata:
+  - implementer: Maven
+  - implementer: Git
+  - implementer: SemanticVersion
+
+  tag-source:
+    - implementer: Git
+
+  unit-test:
+  - implementer: MavenTest
+
+  package:
+  - implementer: MavenPackage
+
+  push-artifacts:
+  - implementer: MavenDeploy
+    config:
+      maven-push-artifact-repo-url: https://nexus-devsecops.apps.prod-openshift.z6w9.p1.openshiftapps.com/repository/maven-releases/
+      maven-push-artifact-repo-id: maven-releases
+
+  report:
+  - implementer: ResultArtifactsArchive

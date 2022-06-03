@@ -1,0 +1,355 @@
+package com.redhat.vcs_kjar;
+
+import com.redhat.vcs.model.VaccineCardDocument
+import com.redhat.vcs.model.DocumentReviewOutcome
+import com.redhat.vcs.model.DocumentReview
+import com.redhat.vcs.model.VaccineBrand
+import com.redhat.vcs.model.ProofType
+import com.redhat.vcs.model.VaxProofAutomaticApprovalResponse
+import com.redhat.vcs.model.VaccineDocumentList
+
+import java.util.ArrayList
+import java.util.List
+
+import java.util.ArrayList
+import java.util.List
+
+// - pfizer/moderna 2 shots within time frame => fully vax
+// - j&j 1 shot => fully vax
+// - pfizer/moderna 1 shot => additional shot req.
+// - booster shot rules => additional shot req.
+// - Issues
+//      - 1 shot different from 2 shot
+//      - vax shots time frame not respected
+//      - etc.
+
+//FIXME workflow may throw exception at the gateway
+
+// COMMENTING BECAUSE IT CONTAINS PII
+//rule "Echo facts"
+//ruleflow-group "vax-card-next-step"
+//when
+//    $o : Object()
+//then
+//    System.out.println(">>>>>> [BR] Fact: " + $o);
+//end
+
+////////////////////////
+// 1 Shot Vaccines... //
+////////////////////////
+
+// JANSSEN
+rule "JANSSEN - fully vaccinated"
+ruleflow-group "vax-card-next-step"
+when
+    $documentList: VaccineDocumentList (
+                    $firstShot : documents.get(0))
+    d: VaccineCardDocument( 
+        vaccineBrand == VaccineBrand.JANSSEN,
+        vaxDate: vaccineAdministrationDate,
+        KjarUtils.numberOfDaysElapsed(vaxDate) >= 14) from $firstShot
+    r: VaxBusinessRulesOutcome()
+then
+    r.setFullyVaccinated(true);
+
+end
+
+// Johnson & Johnson
+rule "JOHNSON & JOHNSON - fully vaccinated"
+ruleflow-group "vax-card-next-step"
+when
+    $documentList: VaccineDocumentList (
+                    $firstShot : documents.get(0))
+    d: VaccineCardDocument( 
+        vaccineBrand == VaccineBrand.JOHNSON,
+        vaxDate: vaccineAdministrationDate,
+        KjarUtils.numberOfDaysElapsed(vaxDate) >= 14) from $firstShot
+    r: VaxBusinessRulesOutcome()
+then
+    r.setFullyVaccinated(true);
+end
+
+////////////////////////
+// 2 Shot Vaccines... //
+////////////////////////
+
+// ASTRAZENECA
+rule "ASTRAZENECA - fully vaccinated"
+ruleflow-group "vax-card-next-step"
+when
+    $documentList: VaccineDocumentList ( 
+                    documents.size()>1 ,
+                    $secondShot : documents.get(1))
+    d: VaccineCardDocument( 
+        vaccineBrand == VaccineBrand.ASTRAZENECA,
+        vaxDate: vaccineAdministrationDate,
+        vaccineShotNumber > 1,
+        KjarUtils.numberOfDaysElapsed(vaxDate) >= 14) from $secondShot
+    r: VaxBusinessRulesOutcome()
+then
+    r.setFullyVaccinated(true);
+end
+
+
+// COMIRNATY
+rule "COMIRNATY - fully vaccinated"
+ruleflow-group "vax-card-next-step"
+when
+   $documentList: VaccineDocumentList ( 
+                    documents.size()>1 ,
+                    $secondShot : documents.get(1))
+    d: VaccineCardDocument( 
+        vaccineBrand == VaccineBrand.COMIRNATY,
+        vaxDate: vaccineAdministrationDate,
+        vaccineShotNumber > 1,
+        KjarUtils.numberOfDaysElapsed(vaxDate) >= 14) from $secondShot
+    r: VaxBusinessRulesOutcome()
+then
+    r.setFullyVaccinated(true);
+end
+
+// COVAXIN
+rule "COVAXIN - fully vaccinated"
+ruleflow-group "vax-card-next-step"
+when
+     $documentList: VaccineDocumentList ( 
+                    documents.size()>1 ,
+                    $secondShot : documents.get(1))
+    d: VaccineCardDocument( 
+        vaccineBrand == VaccineBrand.COVAXIN,
+        vaxDate: vaccineAdministrationDate,
+        vaccineShotNumber > 1,
+        KjarUtils.numberOfDaysElapsed(vaxDate) >= 14) from $secondShot
+    r: VaxBusinessRulesOutcome()
+then
+    r.setFullyVaccinated(true);
+end
+
+// COVISHIELD
+rule "COVISHIELD - fully vaccinated"
+ruleflow-group "vax-card-next-step"
+when
+    $documentList: VaccineDocumentList ( 
+                    documents.size()>1 ,
+                    $secondShot : documents.get(1))
+    d: VaccineCardDocument( 
+        vaccineBrand == VaccineBrand.COVISHIELD,
+        vaxDate: vaccineAdministrationDate,
+        vaccineShotNumber > 1,
+        KjarUtils.numberOfDaysElapsed(vaxDate) >= 14) from $secondShot
+    r: VaxBusinessRulesOutcome()
+then
+    r.setFullyVaccinated(true);
+end
+
+// COVOVAX
+rule "COVOVAX - fully vaccinated"
+ruleflow-group "vax-card-next-step"
+when
+    $documentList: VaccineDocumentList ( 
+                    documents.size()>1 ,
+                    $secondShot : documents.get(1))
+    d: VaccineCardDocument( 
+        vaccineBrand == VaccineBrand.COVOVAX,
+        vaxDate: vaccineAdministrationDate,
+        vaccineShotNumber > 1,
+        KjarUtils.numberOfDaysElapsed(vaxDate) >= 14) from $secondShot
+    r: VaxBusinessRulesOutcome()
+then
+    r.setFullyVaccinated(true);
+end
+
+// MODERNA - fully vaccinated
+rule "MODERNA - fully vaccinated"
+ruleflow-group "vax-card-next-step"
+when
+    $documentList: VaccineDocumentList ( 
+                    documents.size()>1 ,
+                    $secondShot : documents.get(1))
+    d: VaccineCardDocument( 
+        vaccineBrand == VaccineBrand.MODERNA,
+        vaxDate: vaccineAdministrationDate,
+        vaccineShotNumber > 1,
+        KjarUtils.numberOfDaysElapsed(vaxDate) >= 14) from $secondShot
+    r: VaxBusinessRulesOutcome()
+then
+    r.setFullyVaccinated(true);
+end
+
+// NOVAVAX
+rule "NOVAVAX - fully vaccinated"
+ruleflow-group "vax-card-next-step"
+when
+    $documentList: VaccineDocumentList ( 
+                    documents.size()>1 ,
+                    $secondShot : documents.get(1))
+    d: VaccineCardDocument( 
+        vaccineBrand == VaccineBrand.NOVAVAX,
+        vaxDate: vaccineAdministrationDate,
+        vaccineShotNumber > 1,
+        KjarUtils.numberOfDaysElapsed(vaxDate) >= 14) from $secondShot
+    r: VaxBusinessRulesOutcome()
+then
+    r.setFullyVaccinated(true);
+end
+
+// OXFORD
+rule "OXFORD - fully vaccinated"
+ruleflow-group "vax-card-next-step"
+when
+    $documentList: VaccineDocumentList ( 
+                    documents.size()>1 ,
+                    $secondShot : documents.get(1))
+    d: VaccineCardDocument( 
+        vaccineBrand == VaccineBrand.OXFORD,
+        vaxDate: vaccineAdministrationDate,
+        vaccineShotNumber > 1,
+        KjarUtils.numberOfDaysElapsed(vaxDate) >= 14) from $secondShot
+    r: VaxBusinessRulesOutcome()
+then
+    r.setFullyVaccinated(true);
+end
+
+// PFIZER - fully vaccinated
+rule "PFIZER - fully vaccinated"
+ruleflow-group "vax-card-next-step"
+when
+
+    $documentList: VaccineDocumentList ( 
+                    documents.size()>1 ,
+                    $secondShot : documents.get(1))
+    d: VaccineCardDocument( 
+        vaccineBrand == VaccineBrand.PFIZER,
+        vaxDate: vaccineAdministrationDate,
+        vaccineShotNumber > 1,
+        KjarUtils.numberOfDaysElapsed(vaxDate) >= 14) from $secondShot
+    
+    r: VaxBusinessRulesOutcome()
+then
+    r.setFullyVaccinated(true);
+
+end
+
+
+
+// SINOPHARM
+rule "SINOPHARM - fully vaccinated"
+ruleflow-group "vax-card-next-step"
+when
+    $documentList: VaccineDocumentList ( 
+                    documents.size()>1 ,
+                    $secondShot : documents.get(1))
+    d: VaccineCardDocument( 
+        vaccineBrand == VaccineBrand.SINOPHARM,
+        vaxDate: vaccineAdministrationDate,
+        vaccineShotNumber > 1,
+        KjarUtils.numberOfDaysElapsed(vaxDate) >= 14) from $secondShot
+    r: VaxBusinessRulesOutcome()
+then
+    r.setFullyVaccinated(true);
+end
+
+// SPIKEVAX
+rule "SPIKEVAX - fully vaccinated"
+ruleflow-group "vax-card-next-step"
+when
+    $documentList: VaccineDocumentList ( 
+                    documents.size()>1 ,
+                    $secondShot : documents.get(1))
+    d: VaccineCardDocument( 
+        vaccineBrand == VaccineBrand.SPIKEVAX,
+        vaxDate: vaccineAdministrationDate,
+        vaccineShotNumber > 1,
+        KjarUtils.numberOfDaysElapsed(vaxDate) >= 14) from $secondShot
+    r: VaxBusinessRulesOutcome()
+then
+    r.setFullyVaccinated(true);
+end
+
+// SPUTNIK
+rule "SPUTNIK - fully vaccinated"
+ruleflow-group "vax-card-next-step"
+when
+    $documentList: VaccineDocumentList ( 
+                    documents.size()>1 ,
+                    $secondShot : documents.get(1))
+    d: VaccineCardDocument( 
+        vaccineBrand == VaccineBrand.SPUTNIK,
+        vaxDate: vaccineAdministrationDate,
+        vaccineShotNumber > 1,
+        KjarUtils.numberOfDaysElapsed(vaxDate) >= 14) from $secondShot
+    r: VaxBusinessRulesOutcome()
+then
+    r.setFullyVaccinated(true);
+end
+
+// SINOVAC_CORONAVAC
+rule "SINOVAC_CORONAVAC - fully vaccinated"
+ruleflow-group "vax-card-next-step"
+when
+    $documentList: VaccineDocumentList ( 
+                    documents.size()>1 ,
+                    $secondShot : documents.get(1))
+    d: VaccineCardDocument( 
+        vaccineBrand == VaccineBrand.SINOVAC_CORONAVAC,
+        vaxDate: vaccineAdministrationDate,
+        vaccineShotNumber > 1,
+        KjarUtils.numberOfDaysElapsed(vaxDate) >= 14) from $secondShot
+    r: VaxBusinessRulesOutcome()
+then
+    r.setFullyVaccinated(true);
+end
+
+// VAXZEVRIA
+rule "VAXZEVRIA - fully vaccinated"
+ruleflow-group "vax-card-next-step"
+when
+    $documentList: VaccineDocumentList ( 
+                    documents.size()>1 ,
+                    $secondShot : documents.get(1))
+    d: VaccineCardDocument( 
+        vaccineBrand == VaccineBrand.VAXZEVRIA,
+        vaxDate: vaccineAdministrationDate,
+        vaccineShotNumber > 1,
+        KjarUtils.numberOfDaysElapsed(vaxDate) >= 14) from $secondShot
+    r: VaxBusinessRulesOutcome()
+then
+    r.setFullyVaccinated(true);
+end
+
+//////////////////////////
+// Demo purpose only... //
+//////////////////////////
+
+// Report issue when invalid shot number is provided
+// PFIZER - fully vaccinated
+//TODO: Check administration date and existence of previous shots records
+rule "Invalid shot number"
+ruleflow-group "vax-card-next-step"
+when
+    d: VaccineCardDocument( vaccineShotNumber < 1)
+    r: VaxBusinessRulesOutcome()
+then
+    r.addIssue("Invalid shout number # " + d);
+end
+
+rule "Qualifies for Automatic Approval"
+ruleflow-group "vax-card-automatic-approval-applicable"
+when
+  $documentList: ArrayList()
+  r: AutomaticApproval()
+  List(size == $documentList.size()) from collect (VaccineCardDocument((proofType == ProofType.CDC) || (proofType == ProofType.DIVOC) || (proofType == ProofType.EUGC)) from $documentList)
+  
+then
+   r.setApplicable(true);
+end
+
+rule "Meets Automatic Approval Threshold"
+ruleflow-group "vax-card-approval-threshold"
+when
+   aar: VaxProofAutomaticApprovalResponse( confidenceScore >= 45 )
+   r: AutomaticApprovalThreshold()
+then
+   r.setMet(true);
+
+end
